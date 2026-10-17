@@ -85,12 +85,12 @@ o fim é o PABX, pelo NOTIFY.
 
 ## Deploy (Swarm)
 
-A mesma imagem `astraonline/astracalls` traz o binário `sipconnector`. Ele sobe como **outro
+A mesma imagem `mtechsolucoes/astracalls` traz o binário `sipconnector`. Ele sobe como **outro
 serviço**: troque o entrypoint e publique as portas em `mode=host`.
 
 ```yaml
   sipconnector:
-    image: astraonline/astracalls:develop
+    image: mtechsolucoes/astracalls:develop
     entrypoint: ["sipconnector"]
     environment:
       SIPC_API_KEY: "<chave forte>"
