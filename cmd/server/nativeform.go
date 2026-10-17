@@ -35,7 +35,7 @@ import (
 // via data (*_visible). Perguntas NÃO: num formulário gerado por IA o app ignora
 // data.custom_fields da mensagem e mostra as perguntas salvas na criação.
 //
-// Aqui o Callfy remonta a mesma mensagem (com flow_token novo) para enviar
+// Aqui o AstraCalls remonta a mesma mensagem (com flow_token novo) para enviar
 // pela API um formulário que a PRÓPRIA conta criou no app. Validado em 14/10/2026:
 // o formulário abre no celular do cliente. O <biz> "galaxy_message" que o
 // WhatsApp Web usa é recusado com 405 vindo de aparelho vinculado; com o <biz>

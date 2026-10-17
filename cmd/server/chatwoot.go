@@ -50,7 +50,7 @@ type ChatwootConfig struct {
 	// autor). Channels: idem para CANAIS (newsletters).
 	Groups   bool `json:"groups"`
 	Channels bool `json:"channels"`
-	// GroupsSkipIncoming: quando true (com Groups ligado), o Callfy NÃO reflete as
+	// GroupsSkipIncoming: quando true (com Groups ligado), o AstraCalls NÃO reflete as
 	// mensagens dos OUTROS membros do grupo — só posta as peças que costumam faltar:
 	// as mensagens que a conta manda pelo aparelho (nota privada) e os avisos de
 	// entrada/saída/admin. Útil quando outra fonte já traz as mensagens do grupo pro
@@ -67,7 +67,7 @@ type ChatwootConfig struct {
 	// recibo de leitura ao receber).
 	AlwaysOnline bool `json:"always_online"`
 	ReadMessages bool `json:"read_messages"`
-	// MirrorAPI: quando true, as mensagens enviadas pela API do Callfy (ex.: n8n)
+	// MirrorAPI: quando true, as mensagens enviadas pela API do AstraCalls (ex.: n8n)
 	// também aparecem no Chatwoot como NOTA PRIVADA — mesmo tratamento que as enviadas
 	// pelo aparelho. Assim o atendente vê o que foi disparado por fora. As mensagens
 	// do agente do Chatwoot nunca entram aqui (já estão na conversa).
@@ -225,7 +225,7 @@ func (s *Session) resolvePeer(jidStr string) (phone, name string) {
 	return phone, ""
 }
 
-// cwSystemContactID identifica o "contato de sistema" do Callfy no Chatwoot —
+// cwSystemContactID identifica o "contato de sistema" do AstraCalls no Chatwoot —
 // usado para postar avisos operacionais (ex.: sessão do WhatsApp desconectada).
 const cwSystemContactID = "astracalls-system"
 
@@ -238,7 +238,7 @@ func (s *Session) chatwootAlert(text string) {
 	if !cfg.valid() {
 		return
 	}
-	contactID, sourceID, err := cfg.ensureContact(cwSystemContactID, "", "Callfy (sistema)", "")
+	contactID, sourceID, err := cfg.ensureContact(cwSystemContactID, "", "AstraCalls (sistema)", "")
 	if err != nil {
 		s.log.Error("chatwoot: alerta — ensure contact falhou", "err", err)
 		return

@@ -35,7 +35,7 @@ export const LoginScreen = ({ onSuccess }: { onSuccess: () => void }) => {
       <div className="w-full max-w-sm space-y-5 rounded-2xl border bg-card p-7 shadow-soft">
         <div className="flex flex-col items-center gap-2 text-center">
           <span className="inline-flex dark:rounded-xl dark:bg-white dark:px-3 dark:py-2">
-            <img src="/logoCalls.png" alt="Callfy" className="h-9 w-auto select-none" draggable={false} />
+            <img src="/logoCalls.png" alt="AstraCalls" className="h-9 w-auto select-none" draggable={false} />
           </span>
           <p className="text-sm text-muted-foreground">Acesse com a URL e a API key</p>
         </div>

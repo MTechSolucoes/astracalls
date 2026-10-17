@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📞 Callfy
+# 📞 AstraCalls
 
 **Chamadas de voz e vídeo do WhatsApp em Go puro, direto do navegador — prontas para produção SaaS.**
 
@@ -23,7 +23,7 @@ VoIP nativo (áudio + vídeo, 1:1 e em grupo), gateway **SIP/PBX**, suíte compl
 
 ## 📋 Visão Geral
 
-O Callfy pareia uma ou mais contas do WhatsApp (QR code, **código de pareamento** ou
+O AstraCalls pareia uma ou mais contas do WhatsApp (QR code, **código de pareamento** ou
 **passkey**) e permite **fazer e receber chamadas de voz e vídeo** de qualquer navegador,
 ligar para **tronco/ramal SIP**, e operar a conta como canal de **mensagens** (texto, mídia,
 botões, listas, carrossel, enquete, formulário, pix, produto, status…).
@@ -88,9 +88,9 @@ roteadas por call ID.
 
 ### ☎️ Gateway SIP / PBX
 - **Servidor SIP** (porta 5060 UDP/TCP) para o PBX/softphone do cliente **se registrar** no
-  Callfy (credenciais por sessão, mostradas no painel) — tronco ↔ WhatsApp nos dois
+  AstraCalls (credenciais por sessão, mostradas no painel) — tronco ↔ WhatsApp nos dois
   sentidos, áudio G.711 ↔ MLow.
-- **Registro em PBX externo** (o Callfy vira um ramal do Asterisk/FreePBX/tronco
+- **Registro em PBX externo** (o AstraCalls vira um ramal do Asterisk/FreePBX/tronco
   hospedado), com **servidor, domínio e outbound proxy** separados, re-REGISTER automático
   e status no painel.
 - RTP em **faixa fixa de portas** (`WACALLS_RTP_PORT_MIN/MAX`), publicável em `mode=host`.
@@ -199,8 +199,8 @@ roteadas por call ID.
 ## ⚙️ Início Rápido
 
 ```bash
-git clone https://github.com/MTechSolucoes/callfy.git
-cd callfy
+git clone https://github.com/AstraOnlineWeb/AstraCalls.git
+cd AstraCalls
 git submodule update --init          # codec opus_mlow (necessário p/ áudio ao vivo)
 
 go mod download                      # dependências Go
@@ -346,7 +346,7 @@ Automatize o WhatsApp no **n8n sem escrever código**: o node oficial [`n8n-node
 
 **Instalação:** no n8n, abra **Configurações → Community Nodes → Install**, digite `n8n-nodes-astracalls` e clique em **Install**. No Docker, use `N8N_COMMUNITY_PACKAGES=n8n-nodes-astracalls`.
 
-**Credencial:** a URL do seu Callfy e a API Key (`WACALLS_API_KEY`).
+**Credencial:** a URL do seu AstraCalls e a API Key (`WACALLS_API_KEY`).
 
 | Node | O que faz |
 |---|---|
@@ -404,13 +404,12 @@ Precisa de ajuda para melhorar, customizar ou implementar o projeto?
 
 ## 📄 Licença
 
-O Callfy é distribuído sob a licença **GNU AGPL-3.0** — veja [LICENSE](./LICENSE).
+O AstraCalls é distribuído sob a licença **GNU AGPL-3.0** — veja [LICENSE](./LICENSE).
 
 Isso significa que qualquer uso em rede (inclusive SaaS) exige disponibilizar o
 código-fonte das modificações aos usuários do serviço.
 
-O Callfy é um fork do [AstraCalls](https://github.com/AstraOnlineWeb/AstraCalls), que por sua vez
-deriva do [WaCalls](https://github.com/JotaDev66/WaCalls), que é
+O AstraCalls é um fork do [WaCalls](https://github.com/JotaDev66/WaCalls), que é
 licenciado sob **MIT**. Conforme exigido pela MIT, o aviso de copyright original
 (© 2026 jotadev66) é preservado em [LICENSE.WaCalls](./LICENSE.WaCalls). As porções
 originais permanecem sob os termos MIT; o trabalho derivado, como um todo, é

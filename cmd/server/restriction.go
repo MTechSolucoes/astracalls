@@ -51,7 +51,7 @@ func (s *Session) handleReachoutTimelock(evt *events.NotifyAccountReachoutTimelo
 		s.mu.Lock()
 		s.restrictionAlerted = true
 		s.mu.Unlock()
-		text := "⚠️ *Callfy — número com restrição do WhatsApp*\n" +
+		text := "⚠️ *AstraCalls — número com restrição do WhatsApp*\n" +
 			"O WhatsApp aplicou uma restrição de alcance (time-lock / anti-spam) na sessão *" + s.name + "*" +
 			restrictionWhenText(ends) + ".\n" +
 			"Mensagens e chamadas para quem ainda NÃO te respondeu podem não chegar. " +

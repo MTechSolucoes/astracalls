@@ -38,7 +38,7 @@ Thumbs.db
 !native/
 !native/*.dll
 
-# Callfy: artefatos de build/bancada (não versionar)
+# AstraCalls: artefatos de build/bancada (não versionar)
 *.log
 /wacalls
 /wacalls-bare

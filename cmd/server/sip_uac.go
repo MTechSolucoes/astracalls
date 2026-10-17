@@ -42,7 +42,7 @@ func sipHostPortParts(addr string, defaultPort int) (string, int) {
 	return addr, defaultPort
 }
 
-// Modelo 2 (UAC): o Callfy se REGISTRA como cliente/ramal num PBX externo do
+// Modelo 2 (UAC): o AstraCalls se REGISTRA como cliente/ramal num PBX externo do
 // cliente. Assim o PBX passa a "ver" a sessão como um ramal registrado e pode
 // mandar/receber chamadas de/para o WhatsApp sem precisar registrar de volta em nós.
 
@@ -75,7 +75,7 @@ func newSIPUACRegistrar(gw *SIPGateway, sessionID string, cfg sipExtConfig) *sip
 		gw:        gw,
 		sessionID: sessionID,
 		cfg:       cfg,
-		callID:    generateRandomString(24) + "@callfy",
+		callID:    generateRandomString(24) + "@astracalls",
 		ctx:       ctx,
 		cancel:    cancel,
 		state:     sipRegRegistering,

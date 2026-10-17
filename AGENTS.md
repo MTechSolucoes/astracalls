@@ -1,7 +1,7 @@
-# AGENTS.md — Callfy
+# AGENTS.md — AstraCalls
 
 Guia de rotina para quem (pessoa ou agente) for buildar, publicar e implantar o
-Callfy. Foco na **build da imagem Docker** e no **deploy**.
+AstraCalls. Foco na **build da imagem Docker** e no **deploy**.
 
 ## Arquitetura da imagem: amd64 (arm64 opcional)
 

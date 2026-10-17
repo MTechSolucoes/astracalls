@@ -337,7 +337,7 @@ func (s *Session) shareGroupHistory(ctx context.Context, gid types.JID, to []str
 		return nil, err
 	}
 	if len(msgs) == 0 {
-		return nil, errGroupHistoryInput{"nenhuma mensagem deste grupo no banco do Callfy para compartilhar"}
+		return nil, errGroupHistoryInput{"nenhuma mensagem deste grupo no banco do AstraCalls para compartilhar"}
 	}
 	blob, err := encodeGroupHistoryBundle(msgs)
 	if err != nil {

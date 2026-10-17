@@ -61,7 +61,7 @@ type sipCall struct {
 }
 
 func NewSIPGateway(sessions *SessionManager, log *slog.Logger) (*SIPGateway, error) {
-	ua, err := sipgo.NewUA(sipgo.WithUserAgent("Callfy-SIP/1.0"))
+	ua, err := sipgo.NewUA(sipgo.WithUserAgent("AstraCalls-SIP/1.0"))
 	if err != nil {
 		return nil, fmt.Errorf("sipgo ua: %w", err)
 	}
@@ -725,8 +725,8 @@ func getLocalIP() string {
 
 func buildSIPSDP(localIP string, rtpPort int) string {
 	return fmt.Sprintf(`v=0
-o=Callfy 0 0 IN IP4 %s
-s=Callfy SIP Gateway
+o=AstraCalls 0 0 IN IP4 %s
+s=AstraCalls SIP Gateway
 c=IN IP4 %s
 t=0 0
 m=audio %d RTP/AVP 0

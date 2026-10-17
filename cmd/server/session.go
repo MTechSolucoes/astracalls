@@ -59,7 +59,7 @@ type Session struct {
 	lastJID       string // último número (JID) que esteve conectado; mantido após desconectar
 
 	// Credenciais SIP desta sessão (modelo Wavoip: o PBX do cliente se registra
-	// no Callfy usando estes dados). Definidas na criação da sessão.
+	// no AstraCalls usando estes dados). Definidas na criação da sessão.
 	SIPUser string
 	SIPPass string
 	SIPURL  string
@@ -762,16 +762,16 @@ func (s *Session) handleEvent(rawEvt any) {
 	case *events.LoggedOut:
 		s.setAuth(AuthSnapshot{State: "logged_out", Paired: false})
 		go s.notifyDisconnected("desconectada (o aparelho desvinculou este dispositivo)",
-			"Reconecte lendo o QR no painel do Callfy para voltar a enviar e receber.")
+			"Reconecte lendo o QR no painel do AstraCalls para voltar a enviar e receber.")
 	case *events.StreamReplaced:
 		go s.notifyDisconnected("substituída por outra conexão do mesmo número",
-			"Se não foi proposital, reconecte pelo painel do Callfy.")
+			"Se não foi proposital, reconecte pelo painel do AstraCalls.")
 	case *events.TemporaryBan:
 		go s.notifyDisconnected("bloqueada temporariamente pelo WhatsApp ("+evt.String()+")",
 			"Aguarde o fim do bloqueio e evite disparos em massa.")
 	case *events.ClientOutdated:
 		go s.notifyDisconnected("recusada pelo WhatsApp: cliente desatualizado",
-			"É necessário atualizar o Callfy. Avise o suporte técnico.")
+			"É necessário atualizar o AstraCalls. Avise o suporte técnico.")
 	case *events.NotifyAccountReachoutTimelock:
 		// Restrição/time-lock (shadow-ban 463): o WhatsApp limita o alcance do número
 		// (mensagem/chamada "somem" em silêncio). Único sinal programático da restrição.
@@ -974,7 +974,7 @@ func (s *Session) startPhonePairing(ctx context.Context, phone string) (string, 
 	}
 	// O nome de exibição PRECISA ser "Navegador (SO)" com navegador/SO comuns: o
 	// servidor valida e devolve <error code="400" text="bad-request"/> pra
-	// qualquer outra coisa (era "Callfy" e o código nunca era gerado).
+	// qualquer outra coisa (era "AstraCalls" e o código nunca era gerado).
 	code, err := s.client.PairPhone(ctx, phone, true, whatsmeow.PairClientChrome, "Chrome (Linux)")
 	if err != nil {
 		return "", err
@@ -1008,7 +1008,7 @@ func (s *Session) notifyDisconnected(reason, action string) {
 	s.dispatchWebhook("session_status", map[string]any{
 		"status": "disconnected", "reason": reason, "session": s.id, "name": s.name,
 	})
-	text := "⚠️ *Callfy — WhatsApp desconectado*\n" +
+	text := "⚠️ *AstraCalls — WhatsApp desconectado*\n" +
 		"A sessão *" + s.name + "* foi " + reason + ".\n" + action
 	s.chatwootAlert(text)
 }

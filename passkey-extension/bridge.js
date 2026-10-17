@@ -1,4 +1,4 @@
-// bridge.js — roda no painel do Callfy (call.trecofantastico.com.br).
+// bridge.js — roda no painel do AstraCalls (call.trecofantastico.com.br).
 // Faz a ponte entre a página (window.postMessage) e a extensão (chrome.runtime).
 // Não lê nada do painel; só encaminha o pedido de asserção passkey e devolve o
 // resultado. A asserção WebAuthn em si NÃO acontece aqui — acontece na aba do
