@@ -132,25 +132,18 @@ func (gw *SIPGateway) handleRegister(req *sip.Request, tx sip.ServerTransaction)
 		return
 	}
 	sipUser := fromHeader.Address.User
-	authHeader := req.GetHeader("Authorization")
 
-	// Acha a sessão pelo usuário do From; se não casar, pelo usuário do Digest.
-	// PBXs como o 3CX registram o tronco com o número interno dele no From
-	// (ex.: 96016) e mandam o usuário SIP da sessão só no Authorization.
+	// Find session by sip_user
 	sess := gw.findSessionBySIPUser(sipUser)
-	if sess == nil && authHeader != nil {
-		sess = gw.findSessionBySIPUser(parseDigestHeader(authHeader.Value())["username"])
-	}
-	if sess == nil && authHeader != nil {
+	if sess == nil {
 		gw.log.Warn("SIP REGISTER: unknown user", "sip_user", sipUser)
 		gw.reply(tx, req, 403, "Forbidden")
 		return
 	}
 
-	// Autenticação Digest MD5 contra a senha SIP da sessão. Sem Authorization
-	// (1º REGISTER) sempre desafia, mesmo com From desconhecido, para o PBX
-	// mandar as credenciais.
-	if sess == nil || authHeader == nil || !validateDigestAuth(authHeader.Value(), "REGISTER", sess.SIPPass) {
+	// Autenticação Digest MD5 contra a senha SIP da sessão.
+	authHeader := req.GetHeader("Authorization")
+	if authHeader == nil || !validateDigestAuth(authHeader.Value(), "REGISTER", sess.SIPPass) {
 		if authHeader != nil {
 			gw.log.Warn("SIP REGISTER: digest inválido", "sip_user", sipUser)
 		}
@@ -298,11 +291,6 @@ func (gw *SIPGateway) handleInvite(req *sip.Request, tx sip.ServerTransaction) {
 		// modelo 1 + modo agente: o PBX registrado em nós liga PARA o usuário SIP
 		// da sessão (o From é o chamador). Só aceita vindo do IP desse registro.
 		sess = gw.sessionForAgentInvite(toHeader.Address.User, sourceIPOf(req.Source()))
-	}
-	if sess == nil {
-		// modelo 1 com o From = número do chamador (3CX): casa pelo IP do PBX que
-		// está registrado em nós.
-		sess = gw.sessionForRegisteredPBX(sourceIPOf(req.Source()))
 	}
 	if sess == nil {
 		gw.log.Warn("SIP INVITE: sessão não encontrada", "sip_user", sipUser, "source", req.Source())
@@ -583,39 +571,6 @@ func (gw *SIPGateway) sessionForAgentInvite(toUser, sourceIP string) *Session {
 	return sess
 }
 
-// sessionForRegisteredPBX acha a sessão de um PBX registrado em nós (modelo 1)
-// pelo IP de origem do INVITE, comparado com o host do Contact do registro.
-// Só casa quando há exatamente uma sessão para aquele IP (sem ambiguidade).
-func (gw *SIPGateway) sessionForRegisteredPBX(sourceIP string) *Session {
-	if sourceIP == "" {
-		return nil
-	}
-	gw.mu.RLock()
-	var regs []*sipRegistration
-	for _, r := range gw.registrations {
-		if !r.expired() {
-			regs = append(regs, r)
-		}
-	}
-	gw.mu.RUnlock()
-
-	sessionID := ""
-	for _, r := range regs {
-		if !pbxHostMatches(r.contactURI.Host, sourceIP) {
-			continue
-		}
-		if sessionID != "" && sessionID != r.sessionID {
-			return nil // mais de uma sessão atrás do mesmo IP
-		}
-		sessionID = r.sessionID
-	}
-	if sessionID == "" {
-		return nil
-	}
-	sess, _ := gw.sessions.Get(sessionID)
-	return sess
-}
-
 // pbxHostMatches compara o host configurado do PBX (pode ser hostname) com o IP
 // de origem do INVITE. Casa direto por string ou resolvendo o host para IPs.
 func pbxHostMatches(pbxHost, sourceIP string) bool {
@@ -782,17 +737,11 @@ func sipUserPart(jid string) string {
 // ========== Helpers ==========
 
 func (gw *SIPGateway) findSessionBySIPUser(sipUser string) *Session {
-	if sipUser == "" {
-		return nil
-	}
-	gw.sessions.mu.RLock()
-	defer gw.sessions.mu.RUnlock()
-	for _, sess := range gw.sessions.sessions {
-		sess.mu.Lock()
-		match := sess.SIPUser == sipUser
-		sess.mu.Unlock()
-		if match {
-			return sess
+	for _, info := range gw.sessions.infos() {
+		if info.SIPUser == sipUser {
+			if sess, ok := gw.sessions.Get(info.ID); ok {
+				return sess
+			}
 		}
 	}
 	return nil
