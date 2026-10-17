@@ -3,30 +3,30 @@
 Guia de rotina para quem (pessoa ou agente) for buildar, publicar e implantar o
 Callfy. Foco na **build da imagem Docker** e no **deploy**.
 
-## Regra de ouro da imagem: multi-arch obrigatório
+## Arquitetura da imagem: amd64 (arm64 opcional)
 
-A imagem `mtechsolucoes/callfy` **precisa servir `linux/amd64` E `linux/arm64`**.
-O `Dockerfile` é arch-aware (compila o codec MLow com NEON no ARM e baseline
-SSE2 no x86). Uma build single-arch (`docker build` comum) gera um manifesto de
-uma arquitetura só — **isso é considerado quebrado**.
+A imagem `mtechsolucoes/callfy` é publicada hoje só para **`linux/amd64`** — todos
+os nós do Swarm são x86. O `Dockerfile` é arch-aware (compila o codec MLow com
+NEON no ARM e baseline SSE2 no x86), então voltar a publicar `linux/arm64` é só
+religar o job ARM no CI (ver abaixo) quando entrar um servidor ARM.
 
 ## Como buildar: via CI (nunca na VPS de produção)
 
-O build multi-arch é feito **na CI**, com build **nativo por arquitetura** (sem
-QEMU):
+O build é feito **na CI**, no runner x86 do GitHub (`ubuntu-latest`). O job
+publica por **digest** e um job `merge` monta o **manifest list** nas tags
+finais. Workflow: [`.github/workflows/docker-multiarch.yml`](.github/workflows/docker-multiarch.yml).
 
-- **amd64** → runner x86 do GitHub (`ubuntu-latest`)
-- **arm64** → runner ARM **efêmero** do Ubicloud (`ubicloud-standard-8-arm`)
-
-Cada job publica por **digest**; um job `merge` monta o **manifest list** nas
-tags finais. Workflow: [`.github/workflows/docker-multiarch.yml`](.github/workflows/docker-multiarch.yml).
+Para reativar o arm64: conectar o repositório ao **Ubicloud** (GitHub Actions
+runners) e voltar a entrada `linux/arm64` / `ubicloud-standard-8-arm` na matrix
+do workflow. Sem o Ubicloud conectado esse job fica preso na fila e a imagem
+não é publicada.
 
 ### Gatilhos
 
 | Evento | Resultado |
 |--------|-----------|
-| push em `develop` / `main` | publica `:develop` (ou `:main`) multi-arch |
-| tag `v*` | publica `:vX.Y.Z` + `:latest` multi-arch |
+| push em `develop` | publica `:develop` |
+| tag `v*` | publica `:vX.Y.Z` + `:latest` |
 | manual (`workflow_dispatch`) | roda sob demanda |
 
 Ou seja: **para gerar imagem nova, basta dar push** (ou criar a tag de versão).
@@ -34,28 +34,30 @@ Não é necessário — nem recomendado — buildar imagem na VPS.
 
 ### Pré-requisitos (configurar uma vez)
 
-- Repositório conectado ao **Ubicloud** (GitHub Actions runners), para o label
-  `ubicloud-standard-8-arm` resolver numa VM ARM efêmera.
+- GitHub Actions habilitado no repositório (é um fork: vem desligado).
 - Secrets do repositório: `DOCKERHUB_USERNAME` e `DOCKERHUB_TOKEN`.
 - O checkout usa `submodules: recursive` (o `opus_mlow` é submódulo).
 
-### Por que não buildar na VPS
+### Build local (teste)
 
-O build arm64 na VPS depende de emulação QEMU e, somado às bases das duas
-arquiteturas, estoura o disco (cronicamente ~90%+) e pode derrubar o Postgres.
-Se **em emergência** precisar buildar na VPS, faça **uma arquitetura por vez**
-(`buildx --platform linux/<arch>`), com `docker builder prune` + `image prune`
-antes e depois, e monte o manifesto com `docker buildx imagetools create`.
-
-## Deploy (Docker Swarm)
+Para uma imagem de teste fora do CI (ex.: no WSL), inicialize o submódulo e
+builde uma arquitetura:
 
 ```bash
-docker service update --with-registry-auth \
-  --image mtechsolucoes/callfy:develop wacalls_wacalls
+git submodule update --init --recursive
+docker buildx build --platform linux/amd64 -t mtechsolucoes/callfy:test --load .
 ```
 
-Num nó amd64 o manifesto resolve automaticamente para o sub-manifesto amd64.
-Sempre verifique o site após o deploy (`https://call.trecofantastico.com.br/`).
+Nunca builde na VPS de produção: o build compete por disco e CPU com o Postgres.
+
+## Deploy (Docker Swarm / Portainer)
+
+```bash
+docker service update --with-registry-auth   --image mtechsolucoes/callfy:develop callfy_callfy
+```
+
+Pelo Portainer: atualize o serviço com "Re-pull image" ligado. Sempre verifique
+o painel após o deploy.
 
 ## Versionamento
 

@@ -11,7 +11,7 @@ VoIP nativo (áudio + vídeo, 1:1 e em grupo), gateway **SIP/PBX**, suíte compl
 [![whatsmeow](https://img.shields.io/badge/whatsmeow-VoIP-25D366?logo=whatsapp&logoColor=white)](https://github.com/tulir/whatsmeow)
 [![pion](https://img.shields.io/badge/pion-WebRTC-FF6B6B)](https://github.com/pion/webrtc)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org)
-[![Docker](https://img.shields.io/badge/Docker-amd64%20%2B%20arm64-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/mtechsolucoes/callfy)
+[![Docker](https://img.shields.io/badge/Docker-amd64-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/mtechsolucoes/callfy)
 [![n8n](https://img.shields.io/npm/v/n8n-nodes-astracalls?label=n8n%20node&logo=n8n&color=EA4B71)](https://www.npmjs.com/package/n8n-nodes-astracalls)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](#-licença)
 
@@ -136,7 +136,7 @@ roteadas por call ID.
 ### 📊 Observabilidade e infra
 - `GET /livez`, `/readyz`, `/metrics` (Prometheus), versão/commit do build em
   `GET /api/config` e no painel.
-- **PostgreSQL por sessão** (estilo WAHA), **imagem multi-arch** (amd64 + arm64) publicada
+- **PostgreSQL por sessão** (estilo WAHA), **imagem Docker** (amd64) publicada
   pelo CI em [Docker Hub](https://hub.docker.com/r/mtechsolucoes/callfy).
 
 ---
@@ -285,7 +285,7 @@ npm run dev      # Vite na :5173, faz proxy de /api → http://localhost:8080
 
 ## 🐳 Deploy em produção (Docker Swarm + Traefik)
 
-A imagem oficial é **multi-arquitetura** (`linux/amd64` + `linux/arm64`) e é publicada pelo
+A imagem oficial é **`linux/amd64`** e é publicada pelo
 CI a cada push: `mtechsolucoes/callfy:develop` (contínua) e `mtechsolucoes/callfy:vX.Y.Z`
 + `:latest` (releases).
 
