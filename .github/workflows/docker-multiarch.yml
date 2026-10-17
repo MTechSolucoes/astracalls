@@ -27,7 +27,7 @@ permissions:
   contents: read
 
 env:
-  IMAGE: mtechsolucoes/callfy
+  IMAGE: mtechsolucoes/astracalls
 
 jobs:
   build:

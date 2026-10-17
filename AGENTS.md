@@ -5,7 +5,7 @@ AstraCalls. Foco na **build da imagem Docker** e no **deploy**.
 
 ## Arquitetura da imagem: amd64 (arm64 opcional)
 
-A imagem `mtechsolucoes/callfy` é publicada hoje só para **`linux/amd64`** — todos
+A imagem `mtechsolucoes/astracalls` é publicada hoje só para **`linux/amd64`** — todos
 os nós do Swarm são x86. O `Dockerfile` é arch-aware (compila o codec MLow com
 NEON no ARM e baseline SSE2 no x86), então voltar a publicar `linux/arm64` é só
 religar o job ARM no CI (ver abaixo) quando entrar um servidor ARM.
@@ -45,7 +45,7 @@ builde uma arquitetura:
 
 ```bash
 git submodule update --init --recursive
-docker buildx build --platform linux/amd64 -t mtechsolucoes/callfy:test --load .
+docker buildx build --platform linux/amd64 -t mtechsolucoes/astracalls:test --load .
 ```
 
 Nunca builde na VPS de produção: o build compete por disco e CPU com o Postgres.
@@ -53,7 +53,8 @@ Nunca builde na VPS de produção: o build compete por disco e CPU com o Postgre
 ## Deploy (Docker Swarm / Portainer)
 
 ```bash
-docker service update --with-registry-auth   --image mtechsolucoes/callfy:develop callfy_callfy
+docker service update --with-registry-auth \
+  --image mtechsolucoes/astracalls:develop astracalls_astracalls
 ```
 
 Pelo Portainer: atualize o serviço com "Re-pull image" ligado. Sempre verifique
