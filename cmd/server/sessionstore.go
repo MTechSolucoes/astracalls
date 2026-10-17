@@ -106,7 +106,7 @@ func newSessionStore(ctx context.Context, db *sql.DB) (*sessionStore, error) {
 	_, _ = db.ExecContext(ctx, `CREATE INDEX IF NOT EXISTS scheduled_due ON scheduled_messages (status, send_at)`)
 
 	// Fila de reentrega das entradas do Chatwoot (ver chatwoot_outbox.go). Sobrevive
-	// a restart do AstraCalls: se o Chatwoot cai, a mensagem fica aqui e é reentregue
+	// a restart do Callfy: se o Chatwoot cai, a mensagem fica aqui e é reentregue
 	// com backoff em vez de se perder.
 	if _, err := db.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS chatwoot_outbox (
 		id         BIGSERIAL PRIMARY KEY,

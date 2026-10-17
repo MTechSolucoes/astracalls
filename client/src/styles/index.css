@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Paleta AstraCalls — navy #233E4F + azul-claro #89CFF3 (extraída da logo) */
+/* Paleta Callfy — navy #233E4F + azul-claro #89CFF3 (extraída da logo) */
 :root {
   --background: 205 25% 96%;
   --foreground: 205 30% 16%;

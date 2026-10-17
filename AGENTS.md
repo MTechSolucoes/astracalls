@@ -1,7 +1,7 @@
-# AGENTS.md — AstraCalls
+# AGENTS.md — Callfy
 
 Guia de rotina para quem (pessoa ou agente) for buildar, publicar e implantar o
-AstraCalls. Foco na **build da imagem Docker** e no **deploy**.
+Callfy. Foco na **build da imagem Docker** e no **deploy**.
 
 ## Regra de ouro da imagem: multi-arch obrigatório
 

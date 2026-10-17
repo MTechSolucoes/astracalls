@@ -1,4 +1,4 @@
-// background.js — service worker da extensão AstraCalls Passkey Connector.
+// background.js — service worker da extensão Callfy Passkey Connector.
 //
 // Recebe do painel (via bridge.js) o desafio WebAuthn de uma conta com passkey e
 // executa a asserção na aba do web.whatsapp.com — ÚNICA origem onde o passkey da
@@ -72,7 +72,7 @@ function waitForTabComplete(tabId) {
 }
 
 // webAuthnAssertionInPage roda no MAIN world de web.whatsapp.com. Mostra um card
-// AstraCalls, espera o clique do dono (gesto necessário para o WebAuthn), executa
+// Callfy, espera o clique do dono (gesto necessário para o WebAuthn), executa
 // navigator.credentials.get e devolve a assinatura em base64url (sem padding),
 // exatamente no formato que o backend espera (types.WebAuthnResponse).
 function webAuthnAssertionInPage(publicKey) {
@@ -92,7 +92,7 @@ function webAuthnAssertionInPage(publicKey) {
       return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
     };
 
-    // ---- UI (card flutuante AstraCalls) ----
+    // ---- UI (card flutuante Callfy) ----
     const wrap = document.createElement("div");
     wrap.style.cssText =
       "position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;" +
@@ -104,9 +104,9 @@ function webAuthnAssertionInPage(publicKey) {
     card.innerHTML =
       '<div style="width:52px;height:52px;border-radius:14px;background:#233E4F;margin:0 auto 14px;' +
       'display:flex;align-items:center;justify-content:center;color:#89CFF3;font-size:26px">🔐</div>' +
-      '<div style="font-size:18px;font-weight:700;margin-bottom:6px">AstraCalls — conectar conta</div>' +
+      '<div style="font-size:18px;font-weight:700;margin-bottom:6px">Callfy — conectar conta</div>' +
       '<div style="font-size:14px;line-height:1.5;color:#4b5a67;margin-bottom:20px">' +
-      "Sua conta usa <b>passkey</b>. Confirme com sua biometria ou PIN para autorizar a conexão com o AstraCalls.</div>";
+      "Sua conta usa <b>passkey</b>. Confirme com sua biometria ou PIN para autorizar a conexão com o Callfy.</div>";
     const btn = document.createElement("button");
     btn.textContent = "Confirmar com passkey";
     btn.style.cssText =

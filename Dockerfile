@@ -60,8 +60,8 @@ WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-# empacota a extensão de passkey p/ download pelo painel (ver /astracalls-passkey.zip)
-RUN cd /src && zip -r -q /astracalls-passkey.zip passkey-extension -x '*.DS_Store'
+# empacota a extensão de passkey p/ download pelo painel (ver /callfy-passkey.zip)
+RUN cd /src && zip -r -q /callfy-passkey.zip passkey-extension -x '*.DS_Store'
 COPY --from=opus /opt/libopus_mlow.so /src/native/libopus_mlow.so
 ENV CGO_ENABLED=1 \
     CC=gcc \
@@ -80,7 +80,7 @@ COPY --from=opus /opt/libopus_mlow.so /usr/local/lib/libopus_mlow.so
 RUN ldconfig
 COPY --from=server /wacalls /usr/local/bin/wacalls
 COPY --from=client /app/client/dist /app/client/dist
-COPY --from=server /astracalls-passkey.zip /app/client/dist/astracalls-passkey.zip
+COPY --from=server /callfy-passkey.zip /app/client/dist/callfy-passkey.zip
 WORKDIR /app
 # Revisão do build (commit + timestamp): identifica a imagem e garante digest
 # único a cada build de release. Injetado via --build-arg BUILD_REV=...

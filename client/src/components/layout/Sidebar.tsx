@@ -52,7 +52,7 @@ export const Sidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
     <div className="flex h-full flex-col gap-1 p-3">
       <div className="flex items-center gap-2 px-2 pb-3 pt-1">
         <span className="inline-flex dark:rounded-lg dark:bg-white dark:px-2 dark:py-1.5">
-          <img src="/logoCalls.png" alt="AstraCalls" className="h-7 w-auto select-none" draggable={false} />
+          <img src="/logoCalls.png" alt="Callfy" className="h-7 w-auto select-none" draggable={false} />
         </span>
         {version && (
           <span className="font-mono text-[0.6rem] leading-none text-muted-foreground" title={commit ? `commit ${commit}` : "Versão rodando"}>

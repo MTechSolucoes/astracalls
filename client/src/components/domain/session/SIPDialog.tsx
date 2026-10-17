@@ -218,7 +218,7 @@ export const SIPDialog = ({ session }: { session: SessionInfo }) => {
               <div>
                 <p className="text-sm font-medium">Registrar em PBX externo</p>
                 <p className="text-xs text-muted-foreground">
-                  O AstraCalls vira um <b>ramal registrado</b> no seu Asterisk/FreePBX.
+                  O Callfy vira um <b>ramal registrado</b> no seu Asterisk/FreePBX.
                 </p>
               </div>
               <div className="flex items-center gap-2">

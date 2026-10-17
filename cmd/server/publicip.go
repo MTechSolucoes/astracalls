@@ -126,7 +126,7 @@ func httpPublicIP(ctx context.Context, url string) (net.IP, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", "AstraCalls")
+	req.Header.Set("User-Agent", "Callfy")
 	resp, err := (&http.Client{Transport: &http.Transport{
 		// força IPv4: queremos o IPv4 público (o anunciado no ICE/SDP é IPv4)
 		DialContext: func(ctx context.Context, _, addr string) (net.Conn, error) {

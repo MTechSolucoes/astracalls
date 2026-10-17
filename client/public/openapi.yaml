@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
-  title: AstraCalls API
+  title: Callfy API
   version: "1.1.1"
   description: |
-    API HTTP do **AstraCalls** — chamadas de voz do WhatsApp pelo navegador.
+    API HTTP do **Callfy** — chamadas de voz do WhatsApp pelo navegador.
 
     ## Autenticação
     Não há login/senha. As rotas `/api/*` são protegidas por API key: envie o header
@@ -2292,7 +2292,7 @@ paths:
               type: object
               required: [name]
               properties:
-                name: { type: string, example: "Comunidade Astra" }
+                name: { type: string, example: "Comunidade Callfy" }
                 subject: { type: string, description: "alias de name" }
                 description: { type: string, example: "Avisos e grupos da turma" }
                 participants: { type: array, items: { type: string }, example: ["5561999999999"] }
@@ -2534,7 +2534,7 @@ paths:
         para eles, e o grupo todo recebe o aviso de que o histórico foi compartilhado.
 
 
-        As mensagens saem do banco do AstraCalls: só entra o que esta sessão recebeu ou
+        As mensagens saem do banco do Callfy: só entra o que esta sessão recebeu ou
         enviou no grupo. Grupo sem mensagens salvas → 400.
       parameters:
         - { $ref: "#/components/parameters/Sid" }
@@ -3524,7 +3524,7 @@ paths:
                 to: { type: string, example: "5561999999999" }
                 key: { type: string, example: "raphael@email.com", description: "Chave Pix (obrigatória se não enviar code)" }
                 amount: { type: number, example: 49.90, description: "Valor; ≤0/ausente = sem valor. Aceita número ou string" }
-                merchantName: { type: string, example: "Astra Online", description: "máx 25, vira ASCII maiúsculo" }
+                merchantName: { type: string, example: "Callfy", description: "máx 25, vira ASCII maiúsculo" }
                 merchantCity: { type: string, example: "Sao Paulo", description: "máx 15" }
                 txid: { type: string, example: "PEDIDO123", description: "máx 25" }
                 description: { type: string, example: "Cobrança do plano" }
@@ -3562,7 +3562,7 @@ paths:
               required: [to, title]
               properties:
                 to: { type: string, example: "5561999999999" }
-                title: { type: string, example: "Camiseta Astra" }
+                title: { type: string, example: "Camiseta Callfy" }
                 description: { type: string }
                 price: { type: number, example: 79.90, description: "Aceita número ou string" }
                 salePrice: { type: number, description: "Preço promocional (opcional)" }
@@ -4105,8 +4105,8 @@ paths:
                       copyCode: { type: string, description: "para cta_copy" }
                       phoneNumber: { type: string, description: "para cta_call" }
                   example:
-                    - { type: cta_url, displayText: "Abrir site", url: "https://astraonline.com.br" }
-                    - { type: cta_copy, displayText: "Copiar cupom", copyCode: "ASTRA10" }
+                    - { type: cta_url, displayText: "Abrir site", url: "https://exemplo.com.br" }
+                    - { type: cta_copy, displayText: "Copiar cupom", copyCode: "CALLFY10" }
       responses:
         "200": { $ref: "#/components/responses/SendOK" }
 
@@ -4311,7 +4311,7 @@ paths:
                 to: { type: string, example: "5561999999999" }
                 title: { type: string, example: "Cadastro rápido" }
                 body: { type: string, example: "Preencha seus dados 👇" }
-                footer: { type: string, example: "AstraCalls" }
+                footer: { type: string, example: "Callfy" }
                 buttonText: { type: string, example: "Abrir formulário", description: "Texto do botão que abre a webview" }
                 submitText: { type: string, example: "Enviar cadastro", description: "Texto do botão de envio dentro do form" }
                 fields:

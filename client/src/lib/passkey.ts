@@ -1,4 +1,4 @@
-// passkey.ts — ponte entre o painel e a extensão "AstraCalls Passkey Connector".
+// passkey.ts — ponte entre o painel e a extensão "Callfy Passkey Connector".
 //
 // Contas com passkey exigem uma prova WebAuthn feita na origem web.whatsapp.com,
 // o que só a extensão consegue fazer. Aqui detectamos a extensão e pedimos a
@@ -87,4 +87,4 @@ export function runPasskeyAssertion(publicKey: WebAuthnPublicKey): Promise<WebAu
 }
 
 // download da extensão (zip servido pelo próprio backend, na mesma origem)
-export const EXTENSION_DOWNLOAD_URL = "/astracalls-passkey.zip";
+export const EXTENSION_DOWNLOAD_URL = "/callfy-passkey.zip";

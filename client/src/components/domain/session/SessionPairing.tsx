@@ -65,7 +65,7 @@ const PasskeyStep = ({ session }: { session: SessionInfo }) => {
 
       {hasExt === false ? (
         <div className="space-y-3">
-          <Badge variant="destructive">Extensão AstraCalls Passkey não encontrada</Badge>
+          <Badge variant="destructive">Extensão Callfy Passkey não encontrada</Badge>
           <p className="text-sm text-muted-foreground">
             Instale a extensão no navegador do dono da conta para autorizar a conexão:
           </p>
