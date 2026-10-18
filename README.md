@@ -11,7 +11,7 @@ VoIP nativo (áudio + vídeo, 1:1 e em grupo), gateway **SIP/PBX**, suíte compl
 [![whatsmeow](https://img.shields.io/badge/whatsmeow-VoIP-25D366?logo=whatsapp&logoColor=white)](https://github.com/tulir/whatsmeow)
 [![pion](https://img.shields.io/badge/pion-WebRTC-FF6B6B)](https://github.com/pion/webrtc)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org)
-[![Docker](https://img.shields.io/badge/Docker-amd64-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/mtechsolucoes/astracalls)
+[![Docker](https://img.shields.io/badge/Docker-amd64%20%2B%20arm64-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/astraonline/astracalls)
 [![n8n](https://img.shields.io/npm/v/n8n-nodes-astracalls?label=n8n%20node&logo=n8n&color=EA4B71)](https://www.npmjs.com/package/n8n-nodes-astracalls)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](#-licença)
 
@@ -95,8 +95,8 @@ roteadas por call ID.
   e status no painel.
 - RTP em **faixa fixa de portas** (`WACALLS_RTP_PORT_MIN/MAX`), publicável em `mode=host`.
 
-### 📞 Conector SIP (PABX IP → Botfy) — serviço separado
-- Binário `sipconnector` na mesma imagem: liga **qualquer PABX IP** ao Botfy, sem WhatsApp.
+### 📞 Conector SIP (PABX IP → AstraChat) — serviço separado
+- Binário `sipconnector` na mesma imagem: liga **qualquer PABX IP** ao AstraChat, sem WhatsApp.
 - Linha por caixa (o PABX registra no conector **ou** o conector registra no PABX) e **um
   ramal por atendente** (e-mail → ramal).
 - Expõe a **mesma API de chamadas do wacalls** (SSE, accept/reject/DELETE, `/webrtc` para o
@@ -145,8 +145,8 @@ roteadas por call ID.
 ### 📊 Observabilidade e infra
 - `GET /livez`, `/readyz`, `/metrics` (Prometheus), versão/commit do build em
   `GET /api/config` e no painel.
-- **PostgreSQL por sessão** (estilo WAHA), **imagem Docker** (amd64) publicada
-  pelo CI em [Docker Hub](https://hub.docker.com/r/mtechsolucoes/astracalls).
+- **PostgreSQL por sessão** (estilo WAHA), **imagem multi-arch** (amd64 + arm64) publicada
+  pelo CI em [Docker Hub](https://hub.docker.com/r/astraonline/astracalls).
 
 ---
 
@@ -294,8 +294,8 @@ npm run dev      # Vite na :5173, faz proxy de /api → http://localhost:8080
 
 ## 🐳 Deploy em produção (Docker Swarm + Traefik)
 
-A imagem oficial é **`linux/amd64`** e é publicada pelo
-CI a cada push: `mtechsolucoes/astracalls:develop` (contínua) e `mtechsolucoes/astracalls:vX.Y.Z`
+A imagem oficial é **multi-arquitetura** (`linux/amd64` + `linux/arm64`) e é publicada pelo
+CI a cada push: `astraonline/astracalls:develop` (contínua) e `astraonline/astracalls:vX.Y.Z`
 + `:latest` (releases).
 
 ```bash
@@ -303,7 +303,7 @@ CI a cada push: `mtechsolucoes/astracalls:develop` (contínua) e `mtechsolucoes/
 docker stack deploy -c sua-stack.yml astracalls
 
 # atualizar para a imagem mais nova
-docker service update --image mtechsolucoes/astracalls:develop --force astracalls_astracalls
+docker service update --image astraonline/astracalls:develop --force astracalls_astracalls
 ```
 
 Notas de produção:
@@ -317,7 +317,7 @@ Notas de produção:
   em `mode=host`, e aponte `WACALLS_PUBLIC_IP` para o IP real da máquina.
 - Em nuvens que bloqueiam UDP de entrada, o **ICE-TCP** (WebRTC) e o transporte
   **WebSocket** (`WACALLS_DEFAULT_TRANSPORT=auto`) mantêm o áudio funcionando.
-- Para buildar a própria imagem: `docker build -t mtechsolucoes/astracalls:develop .`
+- Para buildar a própria imagem: `docker build -t astraonline/astracalls:develop .`
   (o Dockerfile compila o codec a partir do submódulo `opus_mlow`).
 
 ---
